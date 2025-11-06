@@ -1,4 +1,4 @@
-function SearchBar({ setIsAddModalOpen }) {
+function SearchBar({ handleOpenAddModal }) {
   return (
     <div className="w-4/5 mx-auto py-6 bg-white mt-6 rounded-xl px-6">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -28,7 +28,7 @@ function SearchBar({ setIsAddModalOpen }) {
 
         <button
           className="w-full md:w-auto bg-gradient-to-tr from-indigo-400 to-purple-500 hover:from-indigo-500 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg transition-all duration-300"
-          onClick={() => setIsAddModalOpen(true)}
+          onClick={() => handleOpenAddModal(true)}
         >
           + Add Employee
         </button>

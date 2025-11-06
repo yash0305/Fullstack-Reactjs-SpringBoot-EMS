@@ -27,7 +27,7 @@ function App() {
   };
 
   // ✅ Open modal for editing employee
-  const handleEditClick = (employee) => {
+  const handleEditClick = (id, employee) => {
     console.log("Editing employee:", employee);
     setEmployeeToEdit(employee);
     setIsAddModalOpen(true);
@@ -40,7 +40,7 @@ function App() {
   };
 
   // ✅ Open details modal
-  const handleDetailsClick = (employee) => {
+  const handleDetailsClick = (id, employee) => {
     console.log("Viewing details for employee:", employee);
     setSelectedEmployee(employee);
     setIsDetailsModalOpen(true);
@@ -137,7 +137,9 @@ function App() {
   return (
     <>
       <Header totalEmployees={totalEmployees} />
-      <SearchBar onAddClick={handleOpenAddModal} />
+
+      <SearchBar handleOpenAddModal={handleOpenAddModal} />
+
       <EmployeeTable
         employees={employees}
         handleEdit={handleEditClick}

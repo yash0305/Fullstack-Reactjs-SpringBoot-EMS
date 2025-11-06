@@ -81,7 +81,7 @@ function EmployeeTable({
                 <td className="px-4 py-4">
                   <div className="flex lg:flex-row flex-col gap-2">
                     <button
-                      onClick={() => handleDetails(employee.id)}
+                      onClick={() => handleDetails(employee.id, employee)}
                       className="px-3 py-1 rounded-lg text-white font-medium text-sm transition-all duration-300 hover:opacity-80 hover:shadow-md"
                       style={{ backgroundColor: "#1698AC" }}
                       aria-label={`View details for ${employee.name}`}
@@ -156,7 +156,7 @@ function EmployeeTable({
                 </span>
                 <div className="flex flex-col gap-2">
                   <button
-                    onClick={() => handleDetails(employee.id)}
+                    onClick={() => handleDetails(employee.id, employee)}
                     className="px-3 py-1 rounded-lg text-white font-medium text-sm transition-all duration-300 hover:opacity-80"
                     style={{ backgroundColor: "#1698AC" }}
                     aria-label={`View details for ${employee.name}`}
