@@ -54,7 +54,7 @@ function Pagination({ page, setPage, size, setSize, totalEmployees }) {
   // Handle edge cases
   if (totalEmployees === 0) {
     return (
-      <div className="w-4/5 mx-auto py-6 bg-white rounded-b-xl px-6">
+      <div className="w-full lg:w-4/5 mx-auto py-6 bg-white rounded-b-xl px-6">
         <div className="flex justify-center items-center text-gray-500 text-sm">
           No employees to display
         </div>
@@ -63,7 +63,7 @@ function Pagination({ page, setPage, size, setSize, totalEmployees }) {
   }
 
   return (
-    <div className="w-4/5 mx-auto py-6 bg-white rounded-b-xl px-6">
+    <div className="w-full lg:w-4/5 mx-auto py-6 bg-white rounded-b-xl px-6">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         {/* Left Side - Showing Info */}
         <div className="text-gray-700 text-sm md:text-base">

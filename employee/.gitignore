@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+employee-app/node_modules/
+employee-app/dist/
+employee-app/build/

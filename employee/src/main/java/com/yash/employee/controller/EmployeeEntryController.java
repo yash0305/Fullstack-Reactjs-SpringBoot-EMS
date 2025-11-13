@@ -25,7 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/employees")
-@CrossOrigin(origins = "http://localhost:3000") 
+@CrossOrigin(origins = "https://employee-management-system-yash.netlify.app/") 
+// @CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeEntryController {
 
     @Autowired

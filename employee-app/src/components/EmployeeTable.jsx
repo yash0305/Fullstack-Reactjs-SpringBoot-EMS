@@ -51,7 +51,7 @@ function EmployeeTable({
   }
 
   return (
-    <div className="w-4/5 mx-auto py-6 bg-white mt-6 rounded-t-xl px-6">
+    <div className="w-full lg:w-4/5 mx-auto py-6 bg-white mt-6 rounded-t-xl px-6">
       {/* Desktop and Tablet Table View */}
       <div className="hidden sm:block overflow-x-auto">
         <table className="w-full">

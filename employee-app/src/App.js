@@ -5,7 +5,7 @@ import SearchBar from "./components/SearchBar";
 import EmployeeTable from "./components/EmployeeTable";
 import Pagination from "./components/Pagination";
 import AddEmployeeModal from "./components/AddEmployeeModal";
-import EmployeeDetailsModal from "./components/EmployeeDetailsModal"; // ✅ Import Details Modal
+import EmployeeDetailsModal from "./components/EmployeeDetailsModal";
 import axios from "axios";
 
 function App() {
@@ -17,8 +17,12 @@ function App() {
   const [refresh, setRefresh] = useState(0);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false); // ✅ Details modal state
-  const [selectedEmployee, setSelectedEmployee] = useState(null); // ✅ Selected employee for details
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  const API_BASE = "https://employee-production-dc74.up.railway.app";
+
+  // const API_BASE = "http://localhost:3000";
 
   // ✅ Open modal for adding new employee
   const handleOpenAddModal = () => {
@@ -26,37 +30,32 @@ function App() {
     setIsAddModalOpen(true);
   };
 
-  // ✅ Open modal for editing employee
   const handleEditClick = (id, employee) => {
     console.log("Editing employee:", employee);
     setEmployeeToEdit(employee);
     setIsAddModalOpen(true);
   };
 
-  // ✅ Close add/edit modal
   const handleCloseModal = () => {
     setIsAddModalOpen(false);
     setTimeout(() => setEmployeeToEdit(null), 200);
   };
 
-  // ✅ Open details modal
   const handleDetailsClick = (id, employee) => {
     console.log("Viewing details for employee:", employee);
     setSelectedEmployee(employee);
     setIsDetailsModalOpen(true);
   };
 
-  // ✅ Close details modal
   const handleCloseDetailsModal = () => {
     setIsDetailsModalOpen(false);
     setTimeout(() => setSelectedEmployee(null), 200);
   };
 
-  // ✅ Fetch total count
   const fetchCountOfEmployee = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/employees/count-of-employees"
+        `${API_BASE}/employees/count-of-employees`
       );
       setTotalEmployees(response.data);
     } catch (error) {
@@ -64,12 +63,11 @@ function App() {
     }
   };
 
-  // ✅ Fetch all employees (paginated)
   const fetchAllEmployee = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8080/employees/page?page=${page}&size=${size}`
+        `${API_BASE}/employees/page?page=${page}&size=${size}`
       );
       setEmployees(response.data.content || response.data);
     } catch (error) {
@@ -80,23 +78,19 @@ function App() {
     }
   };
 
-  // ✅ Save employee (handles both add and edit)
   const handleSaveEmployee = async (idOrData, employeeData) => {
     try {
-      // If only one argument, it's ADD mode
       if (employeeData === undefined) {
         employeeData = idOrData;
         const response = await axios.post(
-          "http://localhost:8080/employees",
+          `${API_BASE}/employees`,
           employeeData
         );
         console.log("Employee added:", response.data);
-      }
-      // If two arguments, it's EDIT mode
-      else {
+      } else {
         const id = idOrData;
         const response = await axios.put(
-          `http://localhost:8080/employees/${id}`,
+          `${API_BASE}/employees/${id}`,
           employeeData
         );
         console.log("Employee updated:", response.data);
@@ -109,10 +103,9 @@ function App() {
     }
   };
 
-  // ✅ Delete employee
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/employees/${id}`);
+      await axios.delete(`${API_BASE}/employees/${id}`);
       console.log("Employee deleted:", id);
 
       const remainingEmployees = totalEmployees - 1;
@@ -128,7 +121,6 @@ function App() {
     }
   };
 
-  // ✅ Fetch data when component mounts or when dependencies change
   useEffect(() => {
     fetchCountOfEmployee();
     fetchAllEmployee();
@@ -155,7 +147,6 @@ function App() {
         totalEmployees={totalEmployees}
       />
 
-      {/* ✅ Add/Edit Employee Modal */}
       <AddEmployeeModal
         isOpen={isAddModalOpen}
         onClose={handleCloseModal}
@@ -163,7 +154,6 @@ function App() {
         employeeToEdit={employeeToEdit}
       />
 
-      {/* ✅ Employee Details Modal */}
       <EmployeeDetailsModal
         isOpen={isDetailsModalOpen}
         onClose={handleCloseDetailsModal}

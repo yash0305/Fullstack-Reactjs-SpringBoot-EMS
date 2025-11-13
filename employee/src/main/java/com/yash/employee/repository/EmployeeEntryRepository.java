@@ -16,4 +16,6 @@ public interface EmployeeEntryRepository extends JpaRepository<EmployeeEntry, In
     @Query(value = "SELECT * FROM employee ORDER BY id DESC LIMIT :size OFFSET :offset", nativeQuery = true)
     List<EmployeeEntry> findAllEmployeesPaginated(@Param("size") int size, @Param("offset") int offset);
 
+    
+
 }

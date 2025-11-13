@@ -1,6 +1,6 @@
 function SearchBar({ handleOpenAddModal }) {
   return (
-    <div className="w-4/5 mx-auto py-6 bg-white mt-6 rounded-xl px-6">
+    <div className="w-full lg:w-4/5 mx-auto py-6 bg-white mt-6 rounded-xl px-6">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="w-full md:w-[40%]">
           <div className="relative">
