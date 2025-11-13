@@ -16,6 +16,17 @@ public interface EmployeeEntryRepository extends JpaRepository<EmployeeEntry, In
     @Query(value = "SELECT * FROM employee ORDER BY id DESC LIMIT :size OFFSET :offset", nativeQuery = true)
     List<EmployeeEntry> findAllEmployeesPaginated(@Param("size") int size, @Param("offset") int offset);
 
-    
+    @Query(value = """
+    SELECT * FROM employee
+    WHERE (:name IS NULL OR :name = '' OR LOWER(name) LIKE LOWER(CONCAT('%', :name, '%')))
+    ORDER BY id DESC
+    LIMIT :size OFFSET :offset
+    """, nativeQuery = true)
+    List<EmployeeEntry> searchEmployeesPaginated(@Param("name") String name,
+                                             @Param("size") int size,
+                                             @Param("offset") int offset);
+
+    // @Query(value = "SELECT * FROM employee WHERE name LIKE %:name%", nativeQuery = true)
+    // List<EmployeeEntry> searchByName(@Param("name") String name);
 
 }

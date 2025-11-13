@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/employees")
-@CrossOrigin(origins = "https://employee-management-system-yash.netlify.app/") 
-// @CrossOrigin(origins = "http://localhost:3000")
+// @CrossOrigin(origins = "https://employee-management-system-yash.netlify.app/") 
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeEntryController {
 
     @Autowired
@@ -72,16 +72,32 @@ public class EmployeeEntryController {
     public Long getCountOfEmployee() {
         return employeeEntryRepository.count();
     }
-
-
-    @GetMapping("page")
-    public List<EmployeeEntry> getAllEmployeesPaginated(
-     @RequestParam(defaultValue = "0") int page,
-     @RequestParam(defaultValue = "5") int size){
+    
+    
+    @GetMapping("/search")
+    public List<EmployeeEntry> searchEmployeesPaginated(
+        @RequestParam(required = false) String name,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size) {
 
         int offset = page * size;
-        return employeeEntryRepository.findAllEmployeesPaginated(size, offset);
-     }
+        return employeeEntryRepository.searchEmployeesPaginated(name, size, offset);
+    }
+
+     // @GetMapping("page")
+    // public List<EmployeeEntry> getAllEmployeesPaginated(
+    //  @RequestParam(defaultValue = "0") int page,
+    //  @RequestParam(defaultValue = "5") int size){
+
+    //     int offset = page * size;
+    //     return employeeEntryRepository.findAllEmployeesPaginated(size, offset);
+    //  }
+    
+    
+    // @GetMapping("/search")
+    // public List<EmployeeEntry> searchEmployees(@RequestParam String name) {
+    //     return employeeEntryRepository.searchByName(name);
+    // }
     
     
     

@@ -1,4 +1,9 @@
-function SearchBar({ handleOpenAddModal }) {
+function SearchBar({ handleOpenAddModal, searchText, onSearchChange }) {
+  const handleChange = (e) => {
+    const value = e.target.value;
+    onSearchChange(value); // notify App.jsx
+  };
+
   return (
     <div className="w-full lg:w-4/5 mx-auto py-6 bg-white mt-6 rounded-xl px-6">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -9,6 +14,8 @@ function SearchBar({ handleOpenAddModal }) {
               placeholder="Search employees..."
               className="w-full px-4 py-2 pl-10 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               style={{ borderColor: "#B6A1D5" }}
+              value={searchText}
+              onChange={handleChange}
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"

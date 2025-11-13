@@ -6,6 +6,12 @@ import EmployeeTable from "./components/EmployeeTable";
 import Pagination from "./components/Pagination";
 import AddEmployeeModal from "./components/AddEmployeeModal";
 import EmployeeDetailsModal from "./components/EmployeeDetailsModal";
+import {
+  SkeletonHeader,
+  SkeletonSearchBar,
+  SkeletonTable,
+  SkeletonPagination,
+} from "./components/SkeletonLoaders";
 import axios from "axios";
 
 function App() {
@@ -13,18 +19,23 @@ function App() {
   const [employees, setEmployees] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(5);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start with true
+  const [initialLoading, setInitialLoading] = useState(true); // New state for initial load
   const [refresh, setRefresh] = useState(0);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
-  const API_BASE = "https://employee-production-dc74.up.railway.app";
+  // const API_BASE = "https://employee-production-dc74.up.railway.app";
+  const API_BASE = "http://localhost:8080";
 
-  // const API_BASE = "http://localhost:3000";
+  const handleSearchChange = (value) => {
+    setSearchText(value); // updates search text
+    setPage(0); // optional: reset to first page when user searches
+  };
 
-  // ✅ Open modal for adding new employee
   const handleOpenAddModal = () => {
     setEmployeeToEdit(null);
     setIsAddModalOpen(true);
@@ -67,7 +78,7 @@ function App() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${API_BASE}/employees/page?page=${page}&size=${size}`
+        `${API_BASE}/employees/search?name=${searchText}&page=${page}&size=${size}`
       );
       setEmployees(response.data.content || response.data);
     } catch (error) {
@@ -75,6 +86,7 @@ function App() {
       setEmployees([]);
     } finally {
       setLoading(false);
+      setInitialLoading(false); // Mark initial loading as complete
     }
   };
 
@@ -124,18 +136,34 @@ function App() {
   useEffect(() => {
     fetchCountOfEmployee();
     fetchAllEmployee();
-  }, [page, size, refresh]);
+  }, [page, size, refresh, searchText]);
+
+  // Show skeleton UI during initial load
+  if (initialLoading) {
+    return (
+      <>
+        <SkeletonHeader />
+        <SkeletonSearchBar />
+        <SkeletonTable />
+        <SkeletonPagination />
+      </>
+    );
+  }
 
   return (
     <>
       <Header totalEmployees={totalEmployees} />
 
-      <SearchBar handleOpenAddModal={handleOpenAddModal} />
+      <SearchBar
+        handleOpenAddModal={handleOpenAddModal}
+        searchText={searchText}
+        onSearchChange={handleSearchChange}
+      />
 
       <EmployeeTable
         employees={employees}
         handleEdit={handleEditClick}
-        handleDetails={handleDetailsClick} // ✅ Pass details handler
+        handleDetails={handleDetailsClick}
         handleDelete={handleDelete}
         loading={loading}
       />
