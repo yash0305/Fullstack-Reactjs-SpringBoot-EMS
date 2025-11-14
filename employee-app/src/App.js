@@ -19,8 +19,8 @@ function App() {
   const [employees, setEmployees] = useState([]);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(5);
-  const [loading, setLoading] = useState(true); // Start with true
-  const [initialLoading, setInitialLoading] = useState(true); // New state for initial load
+  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [refresh, setRefresh] = useState(0);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
@@ -28,8 +28,8 @@ function App() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [searchText, setSearchText] = useState("");
 
-  // const API_BASE = "https://employee-production-dc74.up.railway.app";
-  const API_BASE = "http://localhost:8080";
+  const API_BASE = "https://employee-app-production-d6c4.up.railway.app";
+  // const API_BASE = "http://localhost:8080";
 
   const handleSearchChange = (value) => {
     setSearchText(value); // updates search text
@@ -86,7 +86,7 @@ function App() {
       setEmployees([]);
     } finally {
       setLoading(false);
-      setInitialLoading(false); // Mark initial loading as complete
+      setInitialLoading(false);
     }
   };
 
@@ -135,7 +135,11 @@ function App() {
 
   useEffect(() => {
     fetchCountOfEmployee();
-    fetchAllEmployee();
+    const delay = setTimeout(() => {
+      fetchAllEmployee();
+    }, 500); // debounce 500ms
+
+    return () => clearTimeout(delay);
   }, [page, size, refresh, searchText]);
 
   // Show skeleton UI during initial load
