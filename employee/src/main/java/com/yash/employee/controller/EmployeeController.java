@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yash.employee.entity.Employee;
 import com.yash.employee.entity.EmployeeEntry;
+import com.yash.employee.entity.RadaEmployee;
 import com.yash.employee.repository.EmployeeRepository;
+import com.yash.employee.repository.RadaEmployeeRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +33,10 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private RadaEmployeeRepository radaEmployeeRepository;
+    
+
 
     @GetMapping("/page")
     public List<Employee> getAllEmployeesPaginated(
@@ -45,43 +51,39 @@ public class EmployeeController {
 
     @PostMapping()
     public String AddEmp(
-       @RequestBody Employee request
+       @RequestBody RadaEmployee request
 ) {
 
-    employeeRepository.addEmployee(
-        request.getEmployee_name(),
-        request.getManager_name(),
-        request.getDepartment_name(),
+    radaEmployeeRepository.addEmployee(
+        request.getName(),
+        request.getManagerId(),
+        request.getDepartmentId(),
         request.getSalary()
     );
 
     return "Employee Added Successfully";
 }
 
-    @DeleteMapping()
-    public Boolean deleteEmp(
-        @RequestParam("id") int id
-    ){
-        employeeRepository.deleteEmployee(id);
+    @DeleteMapping("/{id}")
+    public Boolean deleteEmp(@PathVariable int id){
+        radaEmployeeRepository.deleteEmployeeById(id);
         return true;
     }
 
     
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(
-            @PathVariable int id,
-            @RequestBody Employee request) {
+    // @PutMapping("/{id}")
+    // public ResponseEntity<String> updateEmployee(
+    //         @PathVariable int id, 
+    //         @RequestBody Employee request) {
         
-        employeeRepository.updateEmployee(
-            id,
-            request.getEmployee_name(),
-            request.getManager_name(),
-            request.getDepartment_name(),
-            request.getSalary()
-        );
+    //     radaEmployeeRepository.updateEmployeeById(
+    //         id,
+    //         request.getName,
+
+    //     );
         
-        return ResponseEntity.ok("Employee updated successfully");
-    }
+    //     return ResponseEntity.ok("Employee updated successfully");
+    // }
 
 
 }

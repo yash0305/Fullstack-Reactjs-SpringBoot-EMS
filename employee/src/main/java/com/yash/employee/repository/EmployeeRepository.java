@@ -1,7 +1,6 @@
 package com.yash.employee.repository;
 import java.util.List;
 
-import org.hibernate.annotations.Parameter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,18 +13,10 @@ import jakarta.transaction.Transactional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
-    @Query(value = "SELECT * FROM rada_employee ORDER BY id DESC LIMIT ?1 OFFSET ?2", nativeQuery = true)
+    @Query(value = "SELECT * FROM rada_emps ORDER BY id DESC LIMIT ?1 OFFSET ?2", nativeQuery = true)
     List<Employee> findAllEmployeesPaginated(int size, int offset);
 
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO rada_employee (employee_name, manager_name, department_name, salary) VALUES (:employee_name, :manager_name, :department_name, :salary)", nativeQuery = true)
-    void addEmployee(
-            @Param("employee_name") String employee_name,
-            @Param("manager_name") String manager_name,
-            @Param("department_name") String department_name,
-            @Param("salary") int salary
-    );
+  
 
     @Modifying
     @Transactional

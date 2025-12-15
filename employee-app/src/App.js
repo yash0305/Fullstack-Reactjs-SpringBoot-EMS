@@ -135,9 +135,16 @@ function App() {
 
   useEffect(() => {
     fetchCountOfEmployee();
+    if (!searchText || searchText.trim() === "") {
+      // Run immediately if search is empty
+      fetchAllEmployee();
+      return;
+    }
+
+    // Run with debounce when search has value
     const delay = setTimeout(() => {
       fetchAllEmployee();
-    }, 500); // debounce 500ms
+    }, 500);
 
     return () => clearTimeout(delay);
   }, [page, size, refresh, searchText]);
